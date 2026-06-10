@@ -7,10 +7,14 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    return onAuthStateChanged(auth, u => {
-      setUser(u);
-      setLoading(false);
-    });
+    // Safety timeout: if Firebase never calls back, stop loading after 8s
+    const timeout = setTimeout(() => setLoading(false), 8000);
+    const unsub = onAuthStateChanged(
+      auth,
+      u => { clearTimeout(timeout); setUser(u); setLoading(false); },
+      err => { clearTimeout(timeout); console.error('Auth error:', err); setLoading(false); }
+    );
+    return () => { clearTimeout(timeout); unsub(); };
   }, []);
 
   const login = (email: string, password: string) =>
