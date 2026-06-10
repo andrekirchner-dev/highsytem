@@ -48,7 +48,8 @@ export default function Login() {
       await loginWithGoogle();
       navigate('/');
     } catch (e: unknown) {
-      const code = (e as { code?: string }).code;
+      const err = e as { code?: string; message?: string };
+      const code = err.code ?? '';
       if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') return;
       if (code === 'auth/operation-not-allowed')
         setError('Google não está ativado no Firebase. Ative em Authentication → Sign-in methods.');
@@ -57,7 +58,7 @@ export default function Login() {
       else if (code === 'auth/popup-blocked')
         setError('Popup bloqueado pelo navegador. Permita popups para este site.');
       else
-        setError(`Erro: ${code ?? 'desconhecido'}`);
+        setError(`Código: ${code || '—'} | ${err.message ?? 'sem mensagem'}`);
 
     } finally {
       setGoogleLoading(false);
