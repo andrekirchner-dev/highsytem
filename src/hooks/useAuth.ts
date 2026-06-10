@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged, signInWithEmailAndPassword, signOut, type User } from 'firebase/auth';
+import {
+  onAuthStateChanged, signInWithEmailAndPassword, signOut,
+  signInWithPopup, GoogleAuthProvider, type User,
+} from 'firebase/auth';
 import { auth } from '../lib/firebase';
+
+const googleProvider = new GoogleAuthProvider();
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Safety timeout: if Firebase never calls back, stop loading after 8s
     const timeout = setTimeout(() => setLoading(false), 8000);
     const unsub = onAuthStateChanged(
       auth,
@@ -20,7 +24,9 @@ export function useAuth() {
   const login = (email: string, password: string) =>
     signInWithEmailAndPassword(auth, email, password);
 
+  const loginWithGoogle = () => signInWithPopup(auth, googleProvider);
+
   const logout = () => signOut(auth);
 
-  return { user, loading, login, logout };
+  return { user, loading, login, loginWithGoogle, logout };
 }
