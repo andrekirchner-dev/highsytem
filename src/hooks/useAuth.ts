@@ -12,6 +12,14 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Playwright E2E: bypass real Firebase when a test user is injected
+    const e2eUser = (window as { __TEST_AUTH_USER__?: User }).__TEST_AUTH_USER__;
+    if (e2eUser) {
+      setUser(e2eUser);
+      setLoading(false);
+      return;
+    }
+
     const timeout = setTimeout(() => setLoading(false), 8000);
     const unsub = onAuthStateChanged(
       auth,
