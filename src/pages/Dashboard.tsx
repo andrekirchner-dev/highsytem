@@ -3,11 +3,12 @@ import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from 'recharts';
-import { TrendingUp, ShoppingBag, DollarSign, Package, AlertTriangle, XCircle } from 'lucide-react';
+import { TrendingUp, ShoppingBag, DollarSign, Package, AlertTriangle, XCircle, ShoppingCart } from 'lucide-react';
 import { subscribeSales, subscribeProducts } from '../lib/firestore';
 import type { Product, Sale } from '../types';
 import { formatCurrency } from '../lib/utils';
 import Badge from '../components/ui/Badge';
+import QuickSaleModal from '../components/QuickSaleModal';
 
 function CountUp({ value, prefix = '', suffix = '' }: { value: number; prefix?: string; suffix?: string }) {
   const [display, setDisplay] = useState(0);
@@ -34,6 +35,7 @@ export default function Dashboard() {
   const [products, setProducts] = useState<Product[]>([]);
   const [sales, setSales] = useState<Sale[]>([]);
   const [range, setRange] = useState<7 | 30 | 90>(30);
+  const [saleOpen, setSaleOpen] = useState(false);
 
   useEffect(() => {
     const unsub1 = subscribeProducts(setProducts);
@@ -92,7 +94,16 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="font-display text-2xl font-bold text-text">Dashboard</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="font-display text-2xl font-bold text-text">Dashboard</h1>
+        <button
+          onClick={() => setSaleOpen(true)}
+          className="flex items-center gap-2 bg-primary text-bg font-bold px-4 py-2.5 rounded-xl hover:bg-primary-glow transition-all glow-primary text-sm">
+          <ShoppingCart size={16} />
+          Realizar venda
+        </button>
+      </div>
+      {saleOpen && <QuickSaleModal onClose={() => setSaleOpen(false)} />}
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
