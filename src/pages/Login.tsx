@@ -48,17 +48,12 @@ export default function Login() {
       await loginWithGoogle();
       navigate('/');
     } catch (e: unknown) {
-      const err = e as { code?: string; message?: string };
-      const code = err.code ?? '';
+      const code = (e as { code?: string }).code ?? '';
       if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') return;
-      if (code === 'auth/operation-not-allowed')
-        setError('Google não está ativado no Firebase. Ative em Authentication → Sign-in methods.');
-      else if (code === 'auth/unauthorized-domain')
-        setError('Domínio não autorizado. Adicione highsytem.vercel.app em Firebase → Authentication → Authorized domains.');
-      else if (code === 'auth/popup-blocked')
+      if (code === 'auth/popup-blocked')
         setError('Popup bloqueado pelo navegador. Permita popups para este site.');
       else
-        setError(`Código: ${code || '—'} | ${err.message ?? 'sem mensagem'}`);
+        setError('Erro ao entrar com Google. Tente novamente.');
 
     } finally {
       setGoogleLoading(false);
