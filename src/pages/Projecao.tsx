@@ -18,10 +18,10 @@ export default function Projecao() {
     from.setDate(from.getDate() - 59);
     from.setHours(0, 0, 0, 0);
     const to = new Date();
-    getSalesByPeriod(from, to).then(data => {
-      setSales(data);
-      setLoading(false);
-    });
+    getSalesByPeriod(from, to)
+      .then(data => setSales(data))
+      .catch(err => console.error('Projeção: erro ao buscar vendas', err))
+      .finally(() => setLoading(false));
     return subscribeProducts(setProducts);
   }, []);
 
