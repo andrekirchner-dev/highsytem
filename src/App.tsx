@@ -6,6 +6,8 @@ import Dashboard from './pages/Dashboard';
 import Estoque from './pages/Estoque';
 import Vendas from './pages/Vendas';
 import Historico from './pages/Historico';
+import Relatorios from './pages/Relatorios';
+import Projecao from './pages/Projecao';
 import Config from './pages/Config';
 
 export default function App() {
@@ -22,6 +24,8 @@ export default function App() {
           <Route path="estoque" element={<Estoque />} />
           <Route path="vendas" element={<Vendas />} />
           <Route path="historico" element={<Historico />} />
+          <Route path="relatorios" element={<Relatorios />} />
+          <Route path="projecao" element={<Projecao />} />
           <Route path="config" element={<Config />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />

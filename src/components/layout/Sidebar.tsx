@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, History, Settings, X } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, History, Settings, X, BarChart2, Lightbulb } from 'lucide-react';
 import Logo from '../Logo';
 import { cn } from '../../lib/utils';
 
@@ -8,6 +8,8 @@ const NAV = [
   { to: '/estoque', icon: Package, label: 'Estoque' },
   { to: '/vendas', icon: ShoppingCart, label: 'Vendas' },
   { to: '/historico', icon: History, label: 'Histórico' },
+  { to: '/relatorios', icon: BarChart2, label: 'Relatórios' },
+  { to: '/projecao', icon: Lightbulb, label: 'Projeção' },
   { to: '/config', icon: Settings, label: 'Config' },
 ];
 

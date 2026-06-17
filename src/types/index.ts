@@ -9,6 +9,7 @@ export interface Product {
   stockQty: number;
   minStock: number;
   imageUrl?: string;
+  expirationDate?: string;
   active: boolean;
   createdAt: Date;
   updatedAt: Date;
